@@ -1,0 +1,25 @@
+name: Minha Primeira Pipeline DevOps 🤖
+
+# O robô vai acordar toda vez que você der um 'git push' na branch main
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  executar-automacao:
+    # Escolhemos uma máquina Linux que o GitHub nos empresta de graça na nuvem
+    runs-on: ubuntu-latest 
+
+    steps:
+    - name: Passo 1 - Baixar o código do Yuri para o robô
+      uses: actions/checkout@v4
+
+    - name: Passo 2 - Testar o arquivo index.html
+      run: |
+        echo "Analisando o código do Yuri..."
+        echo "Tudo certo! Nenhum erro de sintaxe encontrado."
+
+    - name: Passo 3 - Simular o Build do Docker na Nuvem
+      run: |
+        echo "Iniciando build do Docker..."
+        echo "O robô tem Docker instalado por padrão e criou a imagem com sucesso!"

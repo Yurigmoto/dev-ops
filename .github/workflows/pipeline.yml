@@ -1,21 +1,36 @@
-name: Construção Automática (CI)
+name: CI/CD Pipeline - Pokedex
 
-# 1. O Gatilho: executa o pipeline sempre que você enviar código (push) para a branch 'main'
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
-  build-docker:
-    # 2. O Ambiente: o GitHub empresta uma máquina Linux que já tem o Docker instalado
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
-      # 3. Preparação: baixa o seu código do repositório para dentro desta máquina do GitHub
-      - name: Baixar o código
+      - name: Checkout do código
         uses: actions/checkout@v4
 
-      # 4. A Ação: roda exatamente o mesmo comando que você testou no terminal
-      - name: Construir a imagem Docker
-        run: docker build -t teste-devops .
+      - name: Configurar JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Compilar e Testar com Maven
+        run: mvn clean package
+
+      - name: Configurar Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Construir Imagem Docker
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          tags: pokedex:latest

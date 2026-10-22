@@ -1,0 +1,62 @@
+<!-- templates/fragmentos/header.html -->
+<header th:fragment="header(activePage)">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{/dashboard}"> <i class="fas fa-bolt me-2"></i>Pokedex </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link"
+                        th:classappend="${activePage == 'dashboard'} ? 'active' : ''"
+                        th:href="@{/dashboard}">
+                        <i class="fas fa-home me-1"></i> Início
+                    </a></li>
+
+                    <!-- Dropdown de Pokemons -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="pokemonDropdown"
+                        role="button" data-bs-toggle="dropdown" aria-expanded="false"
+                        th:classappend="${activePage == 'pokemon'} ? 'active' : ''"
+                        style="cursor: pointer;"> <i class="fas fa-dragon me-1"></i>
+                            Pokemons
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="pokemonDropdown">
+                            <li><a class="dropdown-item" th:href="@{/pokemon}">
+                                <i class="fas fa-list me-1"></i> Listagem Pokemons</a>
+                            </li>
+                            <li><a class="dropdown-item" th:href="@{/pokemon/formulario}">
+                                <i class="fas fa-star me-1"></i> Cadastrar Pokemon</a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" th:href="@{/pokeapi/buscar}">
+                                <i class="fas fa-magnifying-glass me-1"></i> Importar da PokeAPI</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Dropdown de Tipos -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="tipoDropdown"
+                        role="button" data-bs-toggle="dropdown" aria-expanded="false"
+                        th:classappend="${activePage == 'tipo'} ? 'active' : ''"
+                        style="cursor: pointer;"> <i class="fas fa-tags me-1"></i>
+                            Tipos
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="tipoDropdown">
+                            <li><a class="dropdown-item" th:href="@{/tipo}">
+                                <i class="fas fa-list me-1"></i> Listagem Tipos</a>
+                            </li>
+                            <li><a class="dropdown-item" th:href="@{/tipo/formulario}">
+                                <i class="fas fa-star me-1"></i> Cadastrar Tipo</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/head :: head('Formulário Tipo')}"></head>
+<body>
+    <div th:replace="~{fragmentos/header :: header(activePage='tipo')}"></div>
+
+    <div class="container mt-4">
+        <h2 th:text="${tipo != null and tipo.id != null} ? 'Editar Tipo' : 'Novo Tipo'"></h2>
+
+        <form method="post" th:action="@{/tipo}" th:object="${tipo}" th:if="${tipo != null}">
+            <input type="hidden" th:field="*{id}">
+            <div class="mb-3">
+                <label class="form-label">Nome</label>
+                <input type="text" class="form-control" th:field="*{nome}">
+            </div>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+
+        <form method="post" th:action="@{/tipo}" th:if="${tipo == null}">
+            <div class="mb-3">
+                <label class="form-label">Nome</label>
+                <input type="text" class="form-control" name="nome">
+            </div>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+
+        <a class="btn btn-secondary mt-2" th:href="@{/tipo}">Voltar</a>
+    </div>
+
+    <div th:replace="~{fragmentos/footer :: footer}"></div>
+</body>
+</html>

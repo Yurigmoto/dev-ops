@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/head :: head('Formulário Pokemon')}"></head>
+<body>
+    <div th:replace="~{fragmentos/header :: header(activePage='pokemon')}"></div>
+
+    <div class="container mt-4">
+        <h2 th:text="${pokemon.id != null} ? 'Editar Pokemon' : 'Novo Pokemon'"></h2>
+
+        <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
+
+        <form method="post" th:action="@{/pokemon/salvar}" th:object="${pokemon}">
+            <input type="hidden" th:field="*{id}">
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Nome</label>
+                    <input type="text" class="form-control" th:field="*{nome}" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Número na Pokedex</label>
+                    <input type="number" class="form-control" th:field="*{numeroPokedex}">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Altura (decímetros)</label>
+                    <input type="number" class="form-control" th:field="*{altura}">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Peso (hectogramas)</label>
+                    <input type="number" class="form-control" th:field="*{peso}">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label class="form-label">Experiência base</label>
+                    <input type="number" class="form-control" th:field="*{experienciaBase}">
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">URL da imagem</label>
+                <input type="text" class="form-control" th:field="*{imagemUrl}">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <a class="btn btn-secondary" th:href="@{/pokemon}">Voltar</a>
+        </form>
+    </div>
+
+    <div th:replace="~{fragmentos/footer :: footer}"></div>
+</body>
+</html>

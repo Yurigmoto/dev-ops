@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/head :: head('Importar da PokeAPI')}"></head>
+<body>
+    <div th:replace="~{fragmentos/header :: header(activePage='pokemon')}"></div>
+
+    <div class="container mt-4">
+        <h2>Importar Pokemon da PokeAPI</h2>
+        <p class="text-muted">Digite o nome exato (ex: <code>pikachu</code>) ou o número da pokedex (ex: <code>25</code>). A PokeAPI não suporta busca por termo parecido.</p>
+
+        <form method="get" th:action="@{/pokeapi/buscar}" class="d-flex mb-4">
+            <input type="text" name="termo" th:value="${termo}" class="form-control me-2" placeholder="Nome ou número do pokemon">
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </form>
+
+        <div class="alert alert-success" th:if="${message}" th:text="${message}"></div>
+        <div class="alert alert-danger" th:if="${erro}" th:text="${erro}"></div>
+
+        <div class="card" style="max-width: 300px;" th:if="${resultado}">
+            <img th:if="${resultado.imagemUrl}" th:src="${resultado.imagemUrl}" class="card-img-top p-3">
+            <div class="card-body text-center">
+                <h5 class="card-title" th:text="'#' + ${resultado.numeroPokedex} + ' ' + ${resultado.nome}"></h5>
+                <form method="post" th:action="@{/pokeapi/importar}">
+                    <input type="hidden" name="termo" th:value="${termo}">
+                    <button type="submit" class="btn btn-success"><i class="fas fa-download"></i> Importar para a base</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{fragmentos/footer :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/head :: head('Dashboard')}"></head>
+<body>
+    <div th:replace="~{fragmentos/header :: header(activePage='dashboard')}"></div>
+
+    <div class="container mt-4">
+        <h2>Dashboard</h2>
+        <p>Total de pokemons cadastrados: <strong th:text="${totalCadastrados}">0</strong></p>
+
+        <h4 class="mt-4">Destaques (mais recentes na pokedex)</h4>
+        <div class="row">
+            <div class="col-md-2 mb-3" th:each="pokemon : ${destaques}">
+                <div class="card h-100 text-center">
+                    <img th:if="${pokemon.imagemUrl}" th:src="${pokemon.imagemUrl}" class="card-img-top p-2" style="height:120px;object-fit:contain;">
+                    <div class="card-body p-2">
+                        <p class="card-text mb-0" th:text="'#' + ${pokemon.numeroPokedex} + ' ' + ${pokemon.nome}">Nome</p>
+                    </div>
+                </div>
+            </div>
+            <p th:if="${#lists.isEmpty(destaques)}" class="text-muted">Nenhum pokemon cadastrado ainda. Que tal <a th:href="@{/pokeapi/buscar}">importar um da PokeAPI</a>?</p>
+        </div>
+    </div>
+
+    <div th:replace="~{fragmentos/footer :: footer}"></div>
+</body>
+</html>

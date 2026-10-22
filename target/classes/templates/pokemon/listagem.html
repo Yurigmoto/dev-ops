@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragmentos/head :: head('Pokemons')}"></head>
+<body>
+    <div th:replace="~{fragmentos/header :: header(activePage='pokemon')}"></div>
+
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Pokemons cadastrados</h2>
+            <div>
+                <a class="btn btn-outline-primary" th:href="@{/pokeapi/buscar}"><i class="fas fa-magnifying-glass"></i> Importar da PokeAPI</a>
+                <a class="btn btn-primary" th:href="@{/pokemon/formulario}"><i class="fas fa-plus"></i> Novo Pokemon</a>
+            </div>
+        </div>
+
+        <div class="alert alert-success" th:if="${message}" th:text="${message}"></div>
+        <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
+
+        <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>#</th>
+                    <th>Nome</th>
+                    <th>Altura (dm)</th>
+                    <th>Peso (hg)</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="p : ${lista}" th:classappend="${p.desabilitado} ? 'table-secondary' : ''">
+                    <td><img th:if="${p.imagemUrl}" th:src="${p.imagemUrl}" style="height:48px;width:48px;object-fit:contain;"></td>
+                    <td th:text="${p.numeroPokedex}"></td>
+                    <td th:text="${p.nome}"></td>
+                    <td th:text="${p.altura}"></td>
+                    <td th:text="${p.peso}"></td>
+                    <td>
+                        <span class="badge bg-secondary" th:if="${p.desabilitado}">Desabilitado</span>
+                        <span class="badge bg-success" th:unless="${p.desabilitado}">Ativo</span>
+                    </td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-primary" th:href="@{/pokemon/formulario/{id}(id=${p.id})}" title="Editar"><i class="fas fa-pen"></i></a>
+                        <a class="btn btn-sm btn-outline-warning" th:if="${!p.desabilitado}" th:href="@{/pokemon/{id}/desabilitado/{status}(id=${p.id},status=true)}" title="Desabilitar"><i class="fas fa-eye-slash"></i></a>
+                        <a class="btn btn-sm btn-outline-success" th:if="${p.desabilitado}" th:href="@{/pokemon/{id}/desabilitado/{status}(id=${p.id},status=false)}" title="Habilitar"><i class="fas fa-eye"></i></a>
+                        <a class="btn btn-sm btn-outline-danger" th:href="@{/pokemon/delete/{id}(id=${p.id})}" onclick="return confirm('Apagar este pokemon?');" title="Apagar"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(lista)}">
+                    <td colspan="7" class="text-center text-muted">Nenhum pokemon cadastrado.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:replace="~{fragmentos/footer :: footer}"></div>
+</body>
+</html>

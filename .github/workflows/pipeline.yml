@@ -1,25 +1,21 @@
-name: Minha Primeira Pipeline DevOps 🤖
+name: Construção Automática (CI)
 
-# O robô vai acordar toda vez que você der um 'git push' na branch main
+# 1. O Gatilho: executa o pipeline sempre que você enviar código (push) para a branch 'main'
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
-  executar-automacao:
-    # Escolhemos uma máquina Linux que o GitHub nos empresta de graça na nuvem
-    runs-on: ubuntu-latest 
+  build-docker:
+    # 2. O Ambiente: o GitHub empresta uma máquina Linux que já tem o Docker instalado
+    runs-on: ubuntu-latest
 
     steps:
-    - name: Passo 1 - Baixar o código do Yuri para o robô
-      uses: actions/checkout@v4
+      # 3. Preparação: baixa o seu código do repositório para dentro desta máquina do GitHub
+      - name: Baixar o código
+        uses: actions/checkout@v4
 
-    - name: Passo 2 - Testar o arquivo index.html
-      run: |
-        echo "Analisando o código do Yuri..."
-        echo "Tudo certo! Nenhum erro de sintaxe encontrado."
-
-    - name: Passo 3 - Simular o Build do Docker na Nuvem
-      run: |
-        echo "Iniciando build do Docker..."
-        echo "O robô tem Docker instalado por padrão e criou a imagem com sucesso!"
+      # 4. A Ação: roda exatamente o mesmo comando que você testou no terminal
+      - name: Construir a imagem Docker
+        run: docker build -t teste-devops .
